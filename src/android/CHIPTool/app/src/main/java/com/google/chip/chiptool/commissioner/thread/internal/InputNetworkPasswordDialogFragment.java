@@ -67,4 +67,3 @@ class InputNetworkPasswordDialogFragment extends DialogFragment implements Dialo
     }
   }
 }
-
