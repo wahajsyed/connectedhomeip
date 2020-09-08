@@ -34,16 +34,15 @@ import androidx.fragment.app.Fragment;
 import com.google.chip.chiptool.R;
 import com.google.chip.chiptool.commissioner.CommissionerActivity;
 import com.google.chip.chiptool.commissioner.thread.CommissionerUtils;
-import com.google.chip.chiptool.commissioner.thread.ThreadNetworkCredential;
 import com.google.chip.chiptool.commissioner.thread.ThreadNetworkInfo;
 import com.google.chip.chiptool.setuppayloadscanner.CHIPDeviceInfo;
 import io.openthread.commissioner.ByteArray;
 import io.openthread.commissioner.Commissioner;
 import io.openthread.commissioner.Error;
 import io.openthread.commissioner.ErrorCode;
-import java.util.concurrent.ExecutionException;
 
-class SelectNetworkFragment extends Fragment implements InputNetworkPasswordDialogFragment.PasswordDialogListener, View.OnClickListener {
+class SelectNetworkFragment extends Fragment
+    implements InputNetworkPasswordDialogFragment.PasswordDialogListener, View.OnClickListener {
 
   private static final String TAG = CommissioningFragment.class.getSimpleName();
 
@@ -104,10 +103,10 @@ class SelectNetworkFragment extends Fragment implements InputNetworkPasswordDial
     networkListView.setAdapter(networksAdapter);
 
     networkListView.setOnItemClickListener(
-      (AdapterView<?> adapterView, View v, int position, long id) -> {
-        selectedNetwork = (ThreadNetworkInfo) adapterView.getItemAtPosition(position);
-        addDeviceButton.setVisibility(View.VISIBLE);
-      });
+        (AdapterView<?> adapterView, View v, int position, long id) -> {
+          selectedNetwork = (ThreadNetworkInfo) adapterView.getItemAtPosition(position);
+          addDeviceButton.setVisibility(View.VISIBLE);
+        });
 
     view.findViewById(R.id.add_device_button).setOnClickListener(this);
   }
@@ -116,7 +115,10 @@ class SelectNetworkFragment extends Fragment implements InputNetworkPasswordDial
     gotoCommissioning(deviceInfo, selectedNetwork, pskc);
   }
 
-  private void gotoCommissioning(@NonNull CHIPDeviceInfo deviceInfo, @NonNull ThreadNetworkInfo threadNetworkInfo, @NonNull byte[] pskc) {
+  private void gotoCommissioning(
+      @NonNull CHIPDeviceInfo deviceInfo,
+      @NonNull ThreadNetworkInfo threadNetworkInfo,
+      @NonNull byte[] pskc) {
     CommissioningFragment fragment = new CommissioningFragment(deviceInfo, threadNetworkInfo, pskc);
     getParentFragmentManager()
         .beginTransaction()
@@ -141,11 +143,13 @@ class SelectNetworkFragment extends Fragment implements InputNetworkPasswordDial
   private byte[] computePskc(ThreadNetworkInfo threadNetworkInfo, String password) {
     short[] extendedPanId = new short[threadNetworkInfo.extendedPanId.length];
     for (int i = 0; i < extendedPanId.length; ++i) {
-      extendedPanId[i] = (short)(((short) threadNetworkInfo.extendedPanId[i]) & 0xff);
+      extendedPanId[i] = (short) (((short) threadNetworkInfo.extendedPanId[i]) & 0xff);
     }
 
     ByteArray pskc = new ByteArray();
-    Error error = Commissioner.generatePSKc(pskc, password, threadNetworkInfo.networkName, new ByteArray(extendedPanId));
+    Error error =
+        Commissioner.generatePSKc(
+            pskc, password, threadNetworkInfo.networkName, new ByteArray(extendedPanId));
     if (error.getCode() != ErrorCode.kNone) {
       Log.e(TAG, String.format("failed to generate PSKc: %s", error.toString()));
     }

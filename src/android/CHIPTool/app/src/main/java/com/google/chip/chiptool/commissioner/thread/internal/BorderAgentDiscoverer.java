@@ -18,18 +18,14 @@
 
 package com.google.chip.chiptool.commissioner.thread.internal;
 
-import android.Manifest;
 import android.Manifest.permission;
 import android.content.Context;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
 import android.net.wifi.WifiManager;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import androidx.annotation.RequiresPermission;
 import com.google.chip.chiptool.commissioner.thread.BorderAgentInfo;
-import com.google.chip.chiptool.commissioner.thread.ThreadNetworkInfo;
 import java.util.Map;
 
 class BorderAgentDiscoverer implements NsdManager.DiscoveryListener {
@@ -47,6 +43,7 @@ class BorderAgentDiscoverer implements NsdManager.DiscoveryListener {
 
   public interface BorderAgentListener {
     void onBorderAgentFound(BorderAgentInfo borderAgentInfo);
+
     void onBorderAgentLost(BorderAgentInfo borderAgentInfo);
   }
 

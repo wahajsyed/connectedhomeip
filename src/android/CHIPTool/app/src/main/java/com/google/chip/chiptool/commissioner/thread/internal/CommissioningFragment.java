@@ -32,7 +32,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.work.Data;
-import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
@@ -59,7 +58,8 @@ class CommissioningFragment extends Fragment implements Observer<WorkInfo> {
   ImageView doneImage;
   ImageView errorImage;
 
-  public CommissioningFragment(CHIPDeviceInfo deviceInfo, ThreadNetworkInfo threadNetworkInfo, byte[] pskc) {
+  public CommissioningFragment(
+      CHIPDeviceInfo deviceInfo, ThreadNetworkInfo threadNetworkInfo, byte[] pskc) {
     this.deviceInfo = deviceInfo;
     this.threadNetworkInfo = threadNetworkInfo;
     this.pskc = pskc;
@@ -91,7 +91,9 @@ class CommissioningFragment extends Fragment implements Observer<WorkInfo> {
             .putString(Constants.KEY_PSKC, new Gson().toJson(pskc))
             .build();
     // TODO:
-    commssionerWorkRequest = null; // new OneTimeWorkRequest.Builder(CommissionerWorker.class).setInputData(arguments).build();
+    commssionerWorkRequest =
+        null; // new
+              // OneTimeWorkRequest.Builder(CommissionerWorker.class).setInputData(arguments).build();
 
     WorkManager.getInstance(getActivity()).enqueue(commssionerWorkRequest);
 
@@ -102,8 +104,7 @@ class CommissioningFragment extends Fragment implements Observer<WorkInfo> {
     view.findViewById(R.id.cancel_button)
         .setOnClickListener(
             v -> {
-              WorkManager.getInstance(getActivity())
-                  .cancelWorkById(commssionerWorkRequest.getId());
+              WorkManager.getInstance(getActivity()).cancelWorkById(commssionerWorkRequest.getId());
 
               CommissionerActivity commissionerActivity = (CommissionerActivity) getActivity();
               commissionerActivity.finishCommissioning(Activity.RESULT_CANCELED);

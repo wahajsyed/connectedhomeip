@@ -40,8 +40,8 @@ public class CommissionerActivity extends AppCompatActivity implements BarcodeFr
   }
 
   public void onCHIPDeviceInfoReceived(@NonNull CHIPDeviceInfo deviceInfo) {
-  // FIXME(wgtdkp):
-  // showFragment(new SelectNetworkFragment(deviceInfo));
+    // FIXME(wgtdkp):
+    // showFragment(new SelectNetworkFragment(deviceInfo));
   }
 
   public void finishCommissioning(int resultCode) {

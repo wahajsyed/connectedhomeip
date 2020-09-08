@@ -13,7 +13,6 @@ import io.openthread.commissioner.Commissioner;
 import io.openthread.commissioner.CommissionerHandler;
 import io.openthread.commissioner.Config;
 import io.openthread.commissioner.Error;
-import io.openthread.commissioner.ErrorCode;
 import io.openthread.commissioner.LogLevel;
 import io.openthread.commissioner.Logger;
 import java.net.InetAddress;
@@ -22,12 +21,18 @@ class NetworkCredentialFetcher {
 
   private static final String TAG = NetworkCredentialFetcher.class.getSimpleName();
 
-  public ThreadNetworkCredential fetchNetworkCredential(@NonNull BorderAgentInfo borderAgentInfo, @NonNull byte[] pskc) throws ThreadCommissionerException {
-    ActiveOperationalDataset activeOperationalDataset = fetchNetworkCredential(borderAgentInfo.host, borderAgentInfo.port, pskc);
-    return new ThreadNetworkCredential(CommissionerUtils.getByteArray(activeOperationalDataset.getRawTlvs()));
+  public ThreadNetworkCredential fetchNetworkCredential(
+      @NonNull BorderAgentInfo borderAgentInfo, @NonNull byte[] pskc)
+      throws ThreadCommissionerException {
+    ActiveOperationalDataset activeOperationalDataset =
+        fetchNetworkCredential(borderAgentInfo.host, borderAgentInfo.port, pskc);
+    return new ThreadNetworkCredential(
+        CommissionerUtils.getByteArray(activeOperationalDataset.getRawTlvs()));
   }
 
-  private ActiveOperationalDataset fetchNetworkCredential(@NonNull InetAddress address, int port, @NonNull byte[] pskc) throws ThreadCommissionerException {
+  private ActiveOperationalDataset fetchNetworkCredential(
+      @NonNull InetAddress address, int port, @NonNull byte[] pskc)
+      throws ThreadCommissionerException {
     Commissioner nativeCommissioner = Commissioner.create(new NativeCommissionerHandler());
 
     Config config = new Config();
@@ -42,7 +47,8 @@ class NetworkCredentialFetcher {
 
     // Petition to be the active commissioner in the Thread Network.
     String[] existingCommissionerId = new String[1];
-    throwIfFail(nativeCommissioner.petition(existingCommissionerId, address.getHostAddress(), port));
+    throwIfFail(
+        nativeCommissioner.petition(existingCommissionerId, address.getHostAddress(), port));
 
     // Fetch Active Operational Dataset.
     ActiveOperationalDataset activeOperationalDataset = new ActiveOperationalDataset();
