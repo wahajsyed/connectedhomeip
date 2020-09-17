@@ -104,7 +104,18 @@ SRCS = \
     $(NRF5_SDK_ROOT)/modules/nrfx/drivers/src/nrfx_uarte.c \
     $(NRF5_SDK_ROOT)/modules/nrfx/drivers/src/prs/nrfx_prs.c \
     $(NRF5_SDK_ROOT)/modules/nrfx/mdk/gcc_startup_nrf52840.S \
-    $(NRF5_SDK_ROOT)/modules/nrfx/mdk/system_nrf52840.c
+    $(NRF5_SDK_ROOT)/modules/nrfx/mdk/system_nrf52840.c \
+    $(NRF5_SDK_ROOT)/components/libraries/fifo/app_fifo.c \
+    $(NRF5_SDK_ROOT)/components/libraries/uart/app_uart_fifo.c \
+    $(NRF5_SDK_ROOT)/components/libraries/usbd/app_usbd.c \
+    $(NRF5_SDK_ROOT)/components/libraries/usbd/class/cdc/acm/app_usbd_cdc_acm.c \
+    $(NRF5_SDK_ROOT)/components/libraries/usbd/app_usbd_core.c \
+    $(NRF5_SDK_ROOT)/components/libraries/usbd/app_usbd_serial_num.c \
+    $(NRF5_SDK_ROOT)/components/libraries/usbd/app_usbd_string_desc.c \
+    $(NRF5_SDK_ROOT)/modules/nrfx/drivers/src/nrfx_power.c \
+    $(NRF5_SDK_ROOT)/modules/nrfx/soc/nrfx_atomic.c \
+    $(NRF5_SDK_ROOT)/modules/nrfx/drivers/src/nrfx_systick.c \
+    $(NRF5_SDK_ROOT)/modules/nrfx/drivers/src/nrfx_usbd.c
 
 INC_DIRS = \
     $(PROJECT_ROOT) \
@@ -179,6 +190,10 @@ INC_DIRS = \
     $(NRF5_SDK_ROOT)/modules/nrfx/drivers/include \
     $(NRF5_SDK_ROOT)/modules/nrfx/hal \
     $(NRF5_SDK_ROOT)/modules/nrfx/mdk \
+    $(NRF5_SDK_ROOT)/components/libraries/usbd/class/cdc \
+    $(NRF5_SDK_ROOT)/components/libraries/usbd \
+    $(NRF5_SDK_ROOT)/components/libraries/usbd/class/cdc/acm \
+    $(NRF5_SDK_ROOT)/external/utf_converter
 
 DEFINES = \
     BOARD_PCA10056 \
