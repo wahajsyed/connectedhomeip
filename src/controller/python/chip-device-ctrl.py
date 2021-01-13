@@ -39,6 +39,7 @@ import string
 from cmd import Cmd
 from six.moves import range
 from chip.ChipBleUtility import FAKE_CONN_OBJ_VALUE
+from xmlrpc.server import SimpleXMLRPCServer
 
 # Extend sys.path with one or more directories, relative to the location of the
 # running script, in which the chip package might be found .  This makes it
@@ -440,7 +441,24 @@ class DeviceMgrCmd(Cmd):
         pass
 
 
+def echo_rpc(message):
+    print(message)
+    lower_case_msg = message.casefold()
+    return lower_case_msg
+
+def create_rpc_server():
+    with SimpleXMLRPCServer(("localhost", 5050)) as server:
+        server.register_function(echo_rpc)
+        server.register_multicall_functions()
+        print('Serving XML-RPC on localhost port 5050')
+        try:
+            server.serve_forever()
+        except KeyboardInterrupt:
+            print("\nKeyboard interrupt received, exiting.")
+            sys.exit(0)
+
 def main():
+    create_rpc_server()
     optParser = OptionParser()
     optParser.add_option(
         "-r",

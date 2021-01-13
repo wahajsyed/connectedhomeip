@@ -45,7 +45,7 @@ from six.moves import range
 try:
     from gi.repository import GObject
 except Exception as ex:
-    log(ex)
+    #log(ex)
     from pgi.repository import GObject
 
 from .ChipUtility import ChipUtility
