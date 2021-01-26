@@ -13,5 +13,15 @@
 # limitations under the License.
 
 import("//build_overrides/chip.gni")
-
+import("//build_overrides/pigweed.gni")
 import("${chip_root}/config/standalone/args.gni")
+
+pw_assert_BACKEND = "$dir_pw_assert_log"
+pw_sys_io_BACKEND = "${chip_root}/examples/chip-tool/pw_sys_io:pw_sys_io_chiptool"
+pw_log_BACKEND = "$dir_pw_log_basic"
+
+dir_pw_third_party_nanopb = "${chip_root}/third_party/nanopb/repo"
+pw_protobuf_GENERATORS = [
+  "pwpb",
+  "nanopb_rpc",
+]

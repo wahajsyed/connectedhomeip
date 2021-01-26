@@ -13,12 +13,21 @@
 # limitations under the License.
 
 import("//build_overrides/chip.gni")
-
+import("//build_overrides/pigweed.gni")
+import("$dir_pw_build/target_types.gni")
 import("${chip_root}/build/chip/tools.gni")
 
 assert(chip_build_tools)
 
+#pw_sys_io_BACKEND,pw_assert_BACKEND, pw_log_BACKEND defined in args.gni
+config("gnu17") {
+  cflags_cc = ["-std=gnu++17"]
+}
+
 executable("chip-tool") {
+  # public_configs = [ "${dir_pigweed}/pw_hdlc_lite:default_config" ]
+  # cflags_cc = ["-std=c++17"]
+  # cflags = [ "-Wconversion" ]
   sources = [
     "commands/common/Command.cpp",
     "commands/common/Commands.cpp",
@@ -27,6 +36,7 @@ executable("chip-tool") {
     "commands/common/ModelCommand.cpp",
     "commands/common/NetworkCommand.cpp",
     "main.cpp",
+    "${dir_pigweed}/pw_hdlc_lite/rpc_example/hdlc_rpc_server.cc"
   ]
 
   if (is_debug) {
@@ -34,10 +44,20 @@ executable("chip-tool") {
   } else {
     defines = [ "BUILD_RELEASE=1" ]
   }
+  
+  public_deps = [ 
+    "${chip_root}/src/lib",
+    # Custom back End Impl
+    "${chip_root}/examples/chip-tool/pw_sys_io:pw_sys_io_chiptool",
+  ]
 
-  cflags = [ "-Wconversion" ]
-
-  public_deps = [ "${chip_root}/src/lib" ]
-
+  deps = [
+    "$dir_pw_rpc:server",
+    "$dir_pw_rpc/nanopb:echo_service",
+    "${dir_pigweed}/pw_hdlc_lite:pw_rpc",
+    dir_pw_assert,
+    dir_pw_hdlc_lite,
+    dir_pw_log,
+  ]
   output_dir = root_out_dir
 }
